@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/index.css">
+
+    <script src="/scripts/index.js" type="module"></script>
+
+    <title>Calendário de eventos</title>
+</head>
+
+<body>
+    <div class="app">
+        <div class="sidebar desktop-only">
+            <div class="sidebar__logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+
+                <span class="sidebar__title">Calendário de eventos</span>
+            </div>
+
+            <button class="button button--primary button--lg" data-event-create-button>
+                Criar evento
+            </button>
+
+            <div class="mini-calendar" data-mini-calendar>
+                <div class="mini-calendar__header">
+                    <time class="mini-calendar__date" data-mini-calendar-date></time>
+
+                    <div class="mini-calendar__controls">
+                        <button class="button button--icon button--secondary button--xs" data-mini-calendar-previous-button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="m15 18-6-6 6-6"/></svg>
+                        </button>
+
+                        <button class="button button--icon button--secondary button--xs" data-mini-calendar-next-button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mini-calendar__content">
+                    <ul class="mini-calendar__day-of-week-list">
+                        <li class="mini-calendar__day-of-week">D</li>
+                        <li class="mini-calendar__day-of-week">S</li>
+                        <li class="mini-calendar__day-of-week">T</li>
+                        <li class="mini-calendar__day-of-week">Q</li>
+                        <li class="mini-calendar__day-of-week">Q</li>
+                        <li class="mini-calendar__day-of-week">S</li>
+                        <li class="mini-calendar__day-of-week">S</li>
+                    </ul>
+
+                    <ul class="mini-calendar__day-list" data-mini-calendar-day-list></ul>
+                </div>
+            </div>
+        </div>
+
+        <main class="main">
+            <div class="nav">
+                <button class="button button--icon button--secondary mobile-only" data-hamburger-button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </button>
+
+                <div class="nav__date-info">
+                    <div class="nav__controls">
+                        <button class="button button--secondary desktop-only" data-nav-today-button>
+                            Hoje
+                        </button>
+
+                        <button class="button button--icon button--secondary mobile-only" data-nav-today-button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                        </button>
+
+                        <div class="nav__arrows">
+                            <button class="button button--icon button--secondary" data-nav-previous-button>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="m15 18-6-6 6-6"/></svg>
+                            </button>
+
+                            <button class="button button--icon button--secondary" data-nav-next-button>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <time class="nav__date" data-nav-date></time>
+                </div>
+
+                <div class="select desktop-only">
+                    <select class="select__select" data-view-select>
+                        <option value="day">Dia</option>
+                        <option value="week">Semana</option>
+                        <option value="month">Mês</option>
+                    </select>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="select__icon"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+            </div>
+
+            <div class="calendar" data-calendar></div>
+        </main>
+    </div>
+
+    <button class="fab mobile-only" data-event-create-button>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fab__icon"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+    </button>
+
+    <dialog class="dialog" data-dialog="event-form">
+        <form class="form" data-event-form>
+            <div class="dialog__wrapper">
+                <div class="dialog__header">
+                    <h2 class="dialog__title" data-dialog-title></h2>
+
+                    <button class="button button--icon button--secondary" type="button" data-dialog-close-button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                </div>
+
+                <div class="dialog__content">
+                    <div class="form__fields">
+                        <input type="hidden" name="id" id="id" />
+
+                        <div class="form__field">
+                            <label class="form__label" for="title">
+                                Título*
+                            </label>
+
+                            <input class="input input--fill" id="title" name="title" type="text" placeholder="Título" required autofocus/>
+                        </div>
+
+                        <div class="form__field">
+                            <label class="form__label" for="date">
+                                Data*
+                            </label>
+
+                            <input class="input input--fill" id="date" name="date" type="date" required />
+                        </div>
+
+                        <div class="form__split">
+                            <div class="form__field">
+                                <label class="form__label" for="start-time">
+                                    Hora inicial*
+                                </label>
+
+                                <div class="select select--fill">
+                                    <select class="select__select" id="start-time" name="start-time">
+                                        <option value="0">12:00 AM</option>
+                                        <option value="5">12:05 AM</option>
+                                        <option value="10">12:10 AM</option>
+                                        <option value="15">12:15 AM</option>
+                                        <option value="20">12:20 AM</option>
+                                        <option value="25">12:25 AM</option>
+                                        <option value="30">12:30 AM</option>
+                                        <option value="35">12:35 AM</option>
+                                        <option value="40">12:40 AM</option>
+                                        <option value="45">12:45 AM</option>
+                                        <option value="50">12:50 AM</option>
+                                        <option value="55">12:55 AM</option>
+
+                                        <option value="60">1:00 AM</option>
+                                        <option value="65">1:05 AM</option>
+                                        <option value="70">1:10 AM</option>
+                                        <option value="75">1:15 AM</option>
+                                        <option value="80">1:20 AM</option>
+                                        <option value="85">1:25 AM</option>
+                                        <option value="90">1:30 AM</option>
+                                        <option value="95">1:35 AM</option>
+                                        <option value="100">1:40 AM</option>
+                                        <option value="105">1:45 AM</option>
+                                        <option value="110">1:50 AM</option>
+                                        <option value="115">1:55 AM</option>
+
+                                        <option value="120">2:00 AM</option>
+                                        <option value="125">2:05 AM</option>
+                                        <option value="130">2:10 AM</option>
+                                        <option value="135">2:15 AM</option>
+                                        <option value="140">2:20 AM</option>
+                                        <option value="145">2:25 AM</option>
+                                        <option value="150">2:30 AM</option>
+                                        <option value="155">2:35 AM</option>
+                                        <option value="160">2:40 AM</option>
+                                        <option value="165">2:45 AM</option>
+                                        <option value="170">2:50 AM</option>
+                                        <option value="175">2:55 AM</option>
+
+                                        <option value="180">3:00 AM</option>
+                                        <option value="185">3:05 AM</option>
+                                        <option value="190">3:10 AM</option>
+                                        <option value="195">3:15 AM</option>
+                                        <option value="200">3:20 AM</option>
+                                        <option value="205">3:25 AM</option>
+                                        <option value="210">3:30 AM</option>
+                                        <option value="215">3:35 AM</option>
+                                        <option value="220">3:40 AM</option>
+                                        <option value="225">3:45 AM</option>
+                                        <option value="230">3:50 AM</option>
+                                        <option value="235">3:55 AM</option>
+
+                                        <option value="240">4:00 AM</option>
+                                        <option value="245">4:05 AM</option>
+                                        <option value="250">4:10 AM</option>
+                                        <option value="255">4:15 AM</option>
+                                        <option value="260">4:20 AM</option>
+                                        <option value="265">4:25 AM</option>
+                                        <option value="270">4:30 AM</option>
+                                        <option value="275">4:35 AM</option>
+                                        <option value="280">4:40 AM</option>
+                                        <option value="285">4:45 AM</option>
+                                        <option value="290">4:50 AM</option>
+                                        <option value="295">4:55 AM</option>
+
+                                        <option value="300">5:00 AM</option>
+                                        <option value="305">5:05 AM</option>
+                                        <option value="310">5:10 AM</option>
+                                        <option value="315">5:15 AM</option>
+                                        <option value="320">5:20 AM</option>
+                                        <option value="325">5:25 AM</option>
+                                        <option value="330">5:30 AM</option>
+                                        <option value="335">5:35 AM</option>
+                                        <option value="340">5:40 AM</option>
+                                        <option value="345">5:45 AM</option>
+                                        <option value="350">5:50 AM</option>
+                                        <option value="355">5:55 AM</option>
+
+                                        <option value="360">6:00 AM</option>
+                                        <option value="365">6:05 AM</option>
+                                        <option value="370">6:10 AM</option>
+                                        <option value="375">6:15 AM</option>
+                                        <option value="380">6:20 AM</option>
+                                        <option value="385">6:25 AM</option>
+                                        <option value="390">6:30 AM</option>
+                                        <option value="395">6:35 AM</option>
+                                        <option value="400">6:40 AM</option>
+                                        <option value="405">6:45 AM</option>
+                                        <option value="410">6:50 AM</option>
+                                        <option value="415">6:55 AM</option>
+
+                                        <option value="420">7:00 AM</option>
+                                        <option value="425">7:05 AM</option>
+                                        <option value="430">7:10 AM</option>
+                                        <option value="435">7:15 AM</option>
+                                        <option value="440">7:20 AM</option>
+                                        <option value="445">7:25 AM</option>
+                                        <option value="450">7:30 AM</option>
+                                        <option value="455">7:35 AM</option>
+                                        <option value="460">7:40 AM</option>
+                                        <option value="465">7:45 AM</option>
+                                        <option value="470">7:50 AM</option>
+                                        <option value="475">7:55 AM</option>
+
+                                        <option value="480">8:00 AM</option>
+                                        <option value="485">8:05 AM</option>
+                                        <option value="490">8:10 AM</option>
+                                        <option value="495">8:15 AM</option>
+                                        <option value="500">8:20 AM</option>
+                                        <option value="505">8:25 AM</option>
+                                        <option value="510">8:30 AM</option>
+                                        <option value="515">8:35 AM</option>
+                                        <option value="520">8:40 AM</option>
+                                        <option value="525">8:45 AM</option>
+                                        <option value="530">8:50 AM</option>
+                                        <option value="535">8:55 AM</option>
+
+                                        <option value="540">9:00 AM</option>
+                                        <option value="545">9:05 AM</option>
+                                        <option value="550">9:10 AM</option>
+                                        <option value="555">9:15 AM</option>
+                                        <option value="560">9:20 AM</option>
+                                        <option value="565">9:25 AM</option>
+                                        <option value="570">9:30 AM</option>
+                                        <option value="575">9:35 AM</option>
+                                        <option value="580">9:40 AM</option>
+                                        <option value="585">9:45 AM</option>
+                                        <option value="590">9:50 AM</option>
+                                        <option value="595">9:55 AM</option>
+
+                                        <option value="600">10:00 AM</option>
+                                        <option value="605">10:05 AM</option>
+                                        <option value="610">10:10 AM</option>
+                                        <option value="615">10:15 AM</option>
+                                        <option value="620">10:20 AM</option>
+                                        <option value="625">10:25 AM</option>
+                                        <option value="630">10:30 AM</option>
+                                        <option value="635">10:35 AM</option>
+                                        <option value="640">10:40 AM</option>
+                                        <option value="645">10:45 AM</option>
+                                        <option value="650">10:50 AM</option>
+                                        <option value="655">10:55 AM</option>
+
+                                        <option value="660">11:00 AM</option>
+                                        <option value="665">11:05 AM</option>
+                                        <option value="670">11:10 AM</option>
+                                        <option value="675">11:15 AM</option>
+                                        <option value="680">11:20 AM</option>
+                                        <option value="685">11:25 AM</option>
+                                        <option value="690">11:30 AM</option>
+                                        <option value="695">11:35 AM</option>
+                                        <option value="700">11:40 AM</option>
+                                        <option value="705">11:45 AM</option>
+                                        <option value="710">11:50 AM</option>
+                                        <option value="715">11:55 AM</option>
+
+                                        <option value="720">12:00 PM</option>
+                                        <option value="725">12:05 PM</option>
+                                        <option value="730">12:10 PM</option>
+                                        <option value="735">12:15 PM</option>
+                                        <option value="740">12:20 PM</option>
+                                        <option value="745">12:25 PM</option>
+                                        <option value="750">12:30 PM</option>
+                                        <option value="755">12:35 PM</option>
+                                        <option value="760">12:40 PM</option>
+                                        <option value="765">12:45 PM</option>
+                                        <option value="770">12:50 PM</option>
+                                        <option value="775">12:55 PM</option>
+
+                                        <option value="780">1:00 PM</option>
+                                        <option value="785">1:05 PM</option>
+                                        <option value="790">1:10 PM</option>
+                                        <option value="795">1:15 PM</option>
+                                        <option value="800">1:20 PM</option>
+                                        <option value="805">1:25 PM</option>
+                                        <option value="810">1:30 PM</option>
+                                        <option value="815">1:35 PM</option>
+                                        <option value="820">1:40 PM</option>
+                                        <option value="825">1:45 PM</option>
+                                        <option value="830">1:50 PM</option>
+                                        <option value="835">1:55 PM</option>
+
+                                        <option value="840">2:00 PM</option>
+                                        <option value="845">2:05 PM</option>
+                                        <option value="850">2:10 PM</option>
+                                        <option value="855">2:15 PM</option>
+                                        <option value="860">2:20 PM</option>
+                                        <option value="865">2:25 PM</option>
+                                        <option value="870">2:30 PM</option>
+                                        <option value="875">2:35 PM</option>
+                                        <option value="880">2:40 PM</option>
+                                        <option value="885">2:45 PM</option>
+                                        <option value="890">2:50 PM</option>
+                                        <option value="895">2:55 PM</option>
+
+                                        <option value="900">3:00 PM</option>
+                                        <option value="905">3:05 PM</option>
+                                        <option value="910">3:10 PM</option>
+                                        <option value="915">3:15 PM</option>
+                                        <option value="920">3:20 PM</option>
+                                        <option value="925">3:25 PM</option>
+                                        <option value="930">3:30 PM</option>
+                                        <option value="935">3:35 PM</option>
+                                        <option value="940">3:40 PM</option>
+                                        <option value="945">3:45 PM</option>
+                                        <option value="950">3:50 PM</option>
+                                        <option value="955">3:55 PM</option>
+
+                                        <option value="960">4:00 PM</option>
+                                        <option value="965">4:05 PM</option>
+                                        <option value="970">4:10 PM</option>
+                                        <option value="975">4:15 PM</option>
+                                        <option value="980">4:20 PM</option>
+                                        <option value="985">4:25 PM</option>
+                                        <option value="990">4:30 PM</option>
+                                        <option value="995">4:35 PM</option>
+                                        <option value="1000">4:40 PM</option>
+                                        <option value="1005">4:45 PM</option>
+                                        <option value="1010">4:50 PM</option>
+                                        <option value="1015">4:55 PM</option>
+
+                                        <option value="1020">5:00 PM</option>
+                                        <option value="1025">5:05 PM</option>
+                                        <option value="1030">5:10 PM</option>
+                                        <option value="1035">5:15 PM</option>
+                                        <option value="1040">5:20 PM</option>
+                                        <option value="1045">5:25 PM</option>
+                                        <option value="1050">5:30 PM</option>
+                                        <option value="1055">5:35 PM</option>
+                                        <option value="1060">5:40 PM</option>
+                                        <option value="1065">5:45 PM</option>
+                                        <option value="1070">5:50 PM</option>
+                                        <option value="1075">5:55 PM</option>
+
+                                        <option value="1080">6:00 PM</option>
+                                        <option value="1085">6:05 PM</option>
+                                        <option value="1090">6:10 PM</option>
+                                        <option value="1095">6:15 PM</option>
+                                        <option value="1100">6:20 PM</option>
+                                        <option value="1105">6:25 PM</option>
+                                        <option value="1110">6:30 PM</option>
+                                        <option value="1115">6:35 PM</option>
+                                        <option value="1120">6:40 PM</option>
+                                        <option value="1125">6:45 PM</option>
+                                        <option value="1130">6:50 PM</option>
+                                        <option value="1135">6:55 PM</option>
+
+                                        <option value="1140">7:00 PM</option>
+                                        <option value="1145">7:05 PM</option>
+                                        <option value="1150">7:10 PM</option>
+                                        <option value="1155">7:15 PM</option>
+                                        <option value="1160">7:20 PM</option>
+                                        <option value="1165">7:25 PM</option>
+                                        <option value="1170">7:30 PM</option>
+                                        <option value="1175">7:35 PM</option>
+                                        <option value="1180">7:40 PM</option>
+                                        <option value="1185">7:45 PM</option>
+                                        <option value="1190">7:50 PM</option>
+                                        <option value="1195">7:55 PM</option>
+
+                                        <option value="1200">8:00 PM</option>
+                                        <option value="1205">8:05 PM</option>
+                                        <option value="1210">8:10 PM</option>
+                                        <option value="1215">8:15 PM</option>
+                                        <option value="1220">8:20 PM</option>
+                                        <option value="1225">8:25 PM</option>
+                                        <option value="1230">8:30 PM</option>
+                                        <option value="1235">8:35 PM</option>
+                                        <option value="1240">8:40 PM</option>
+                                        <option value="1245">8:45 PM</option>
+                                        <option value="1250">8:50 PM</option>
+                                        <option value="1255">8:55 PM</option>
+
+                                        <option value="1260">9:00 PM</option>
+                                        <option value="1265">9:05 PM</option>
+                                        <option value="1270">9:10 PM</option>
+                                        <option value="1275">9:15 PM</option>
+                                        <option value="1280">9:20 PM</option>
+                                        <option value="1285">9:25 PM</option>
+                                        <option value="1290">9:30 PM</option>
+                                        <option value="1295">9:35 PM</option>
+                                        <option value="1300">9:40 PM</option>
+                                        <option value="1305">9:45 PM</option>
+                                        <option value="1310">9:50 PM</option>
+                                        <option value="1315">9:55 PM</option>
+
+                                        <option value="1320">10:00 PM</option>
+                                        <option value="1325">10:05 PM</option>
+                                        <option value="1330">10:10 PM</option>
+                                        <option value="1335">10:15 PM</option>
+                                        <option value="1340">10:20 PM</option>
+                                        <option value="1345">10:25 PM</option>
+                                        <option value="1350">10:30 PM</option>
+                                        <option value="1355">10:35 PM</option>
+                                        <option value="1360">10:40 PM</option>
+                                        <option value="1365">10:45 PM</option>
+                                        <option value="1370">10:50 PM</option>
+                                        <option value="1375">10:55 PM</option>
+
+                                        <option value="1380">11:00 PM</option>
+                                        <option value="1385">11:05 PM</option>
+                                        <option value="1390">11:10 PM</option>
+                                        <option value="1395">11:15 PM</option>
+                                        <option value="1400">11:20 PM</option>
+                                        <option value="1405">11:25 PM</option>
+                                        <option value="1410">11:30 PM</option>
+                                        <option value="1415">11:35 PM</option>
+                                        <option value="1420">11:40 PM</option>
+                                        <option value="1425">11:45 PM</option>
+                                        <option value="1430">11:50 PM</option>
+                                        <option value="1435">11:55 PM</option>
+                                    </select>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="select__icon"><path d="m6 9 6 6 6-6"/></svg>
+                                </div>
+                            </div>
+
+                            <div class="form__field">
+                                <label class="form__label" for="end-time">
+                                    Hora final*
+                                </label>
+
+                                <div class="select select--fill">
+                                    <select class="select__select" id="end-time" name="end-time">
+                                        <option value="5">12:05 AM</option>
+                                        <option value="10">12:10 AM</option>
+                                        <option value="15">12:15 AM</option>
+                                        <option value="20">12:20 AM</option>
+                                        <option value="25">12:25 AM</option>
+                                        <option value="30">12:30 AM</option>
+                                        <option value="35">12:35 AM</option>
+                                        <option value="40">12:40 AM</option>
+                                        <option value="45">12:45 AM</option>
+                                        <option value="50">12:50 AM</option>
+                                        <option value="55">12:55 AM</option>
+
+                                        <option value="60">1:00 AM</option>
+                                        <option value="65">1:05 AM</option>
+                                        <option value="70">1:10 AM</option>
+                                        <option value="75">1:15 AM</option>
+                                        <option value="80">1:20 AM</option>
+                                        <option value="85">1:25 AM</option>
+                                        <option value="90">1:30 AM</option>
+                                        <option value="95">1:35 AM</option>
+                                        <option value="100">1:40 AM</option>
+                                        <option value="105">1:45 AM</option>
+                                        <option value="110">1:50 AM</option>
+                                        <option value="115">1:55 AM</option>
+
+                                        <option value="120">2:00 AM</option>
+                                        <option value="125">2:05 AM</option>
+                                        <option value="130">2:10 AM</option>
+                                        <option value="135">2:15 AM</option>
+                                        <option value="140">2:20 AM</option>
+                                        <option value="145">2:25 AM</option>
+                                        <option value="150">2:30 AM</option>
+                                        <option value="155">2:35 AM</option>
+                                        <option value="160">2:40 AM</option>
+                                        <option value="165">2:45 AM</option>
+                                        <option value="170">2:50 AM</option>
+                                        <option value="175">2:55 AM</option>
+
+                                        <option value="180">3:00 AM</option>
+                                        <option value="185">3:05 AM</option>
+                                        <option value="190">3:10 AM</option>
+                                        <option value="195">3:15 AM</option>
+                                        <option value="200">3:20 AM</option>
+                                        <option value="205">3:25 AM</option>
+                                        <option value="210">3:30 AM</option>
+                                        <option value="215">3:35 AM</option>
+                                        <option value="220">3:40 AM</option>
+                                        <option value="225">3:45 AM</option>
+                                        <option value="230">3:50 AM</option>
+                                        <option value="235">3:55 AM</option>
+
+                                        <option value="240">4:00 AM</option>
+                                        <option value="245">4:05 AM</option>
+                                        <option value="250">4:10 AM</option>
+                                        <option value="255">4:15 AM</option>
+                                        <option value="260">4:20 AM</option>
+                                        <option value="265">4:25 AM</option>
+                                        <option value="270">4:30 AM</option>
+                                        <option value="275">4:35 AM</option>
+                                        <option value="280">4:40 AM</option>
+                                        <option value="285">4:45 AM</option>
+                                        <option value="290">4:50 AM</option>
+                                        <option value="295">4:55 AM</option>
+
+                                        <option value="300">5:00 AM</option>
+                                        <option value="305">5:05 AM</option>
+                                        <option value="310">5:10 AM</option>
+                                        <option value="315">5:15 AM</option>
+                                        <option value="320">5:20 AM</option>
+                                        <option value="325">5:25 AM</option>
+                                        <option value="330">5:30 AM</option>
+                                        <option value="335">5:35 AM</option>
+                                        <option value="340">5:40 AM</option>
+                                        <option value="345">5:45 AM</option>
+                                        <option value="350">5:50 AM</option>
+                                        <option value="355">5:55 AM</option>
+
+                                        <option value="360">6:00 AM</option>
+                                        <option value="365">6:05 AM</option>
+                                        <option value="370">6:10 AM</option>
+                                        <option value="375">6:15 AM</option>
+                                        <option value="380">6:20 AM</option>
+                                        <option value="385">6:25 AM</option>
+                                        <option value="390">6:30 AM</option>
+                                        <option value="395">6:35 AM</option>
+                                        <option value="400">6:40 AM</option>
+                                        <option value="405">6:45 AM</option>
+                                        <option value="410">6:50 AM</option>
+                                        <option value="415">6:55 AM</option>
+
+                                        <option value="420">7:00 AM</option>
+                                        <option value="425">7:05 AM</option>
+                                        <option value="430">7:10 AM</option>
+                                        <option value="435">7:15 AM</option>
+                                        <option value="440">7:20 AM</option>
+                                        <option value="445">7:25 AM</option>
+                                        <option value="450">7:30 AM</option>
+                                        <option value="455">7:35 AM</option>
+                                        <option value="460">7:40 AM</option>
+                                        <option value="465">7:45 AM</option>
+                                        <option value="470">7:50 AM</option>
+                                        <option value="475">7:55 AM</option>
+
+                                        <option value="480">8:00 AM</option>
+                                        <option value="485">8:05 AM</option>
+                                        <option value="490">8:10 AM</option>
+                                        <option value="495">8:15 AM</option>
+                                        <option value="500">8:20 AM</option>
+                                        <option value="505">8:25 AM</option>
+                                        <option value="510">8:30 AM</option>
+                                        <option value="515">8:35 AM</option>
+                                        <option value="520">8:40 AM</option>
+                                        <option value="525">8:45 AM</option>
+                                        <option value="530">8:50 AM</option>
+                                        <option value="535">8:55 AM</option>
+
+                                        <option value="540">9:00 AM</option>
+                                        <option value="545">9:05 AM</option>
+                                        <option value="550">9:10 AM</option>
+                                        <option value="555">9:15 AM</option>
+                                        <option value="560">9:20 AM</option>
+                                        <option value="565">9:25 AM</option>
+                                        <option value="570">9:30 AM</option>
+                                        <option value="575">9:35 AM</option>
+                                        <option value="580">9:40 AM</option>
+                                        <option value="585">9:45 AM</option>
+                                        <option value="590">9:50 AM</option>
+                                        <option value="595">9:55 AM</option>
+
+                                        <option value="600">10:00 AM</option>
+                                        <option value="605">10:05 AM</option>
+                                        <option value="610">10:10 AM</option>
+                                        <option value="615">10:15 AM</option>
+                                        <option value="620">10:20 AM</option>
+                                        <option value="625">10:25 AM</option>
+                                        <option value="630">10:30 AM</option>
+                                        <option value="635">10:35 AM</option>
+                                        <option value="640">10:40 AM</option>
+                                        <option value="645">10:45 AM</option>
+                                        <option value="650">10:50 AM</option>
+                                        <option value="655">10:55 AM</option>
+
+                                        <option value="660">11:00 AM</option>
+                                        <option value="665">11:05 AM</option>
+                                        <option value="670">11:10 AM</option>
+                                        <option value="675">11:15 AM</option>
+                                        <option value="680">11:20 AM</option>
+                                        <option value="685">11:25 AM</option>
+                                        <option value="690">11:30 AM</option>
+                                        <option value="695">11:35 AM</option>
+                                        <option value="700">11:40 AM</option>
+                                        <option value="705">11:45 AM</option>
+                                        <option value="710">11:50 AM</option>
+                                        <option value="715">11:55 AM</option>
+
+                                        <option value="720">12:00 PM</option>
+                                        <option value="725">12:05 PM</option>
+                                        <option value="730">12:10 PM</option>
+                                        <option value="735">12:15 PM</option>
+                                        <option value="740">12:20 PM</option>
+                                        <option value="745">12:25 PM</option>
+                                        <option value="750">12:30 PM</option>
+                                        <option value="755">12:35 PM</option>
+                                        <option value="760">12:40 PM</option>
+                                        <option value="765">12:45 PM</option>
+                                        <option value="770">12:50 PM</option>
+                                        <option value="775">12:55 PM</option>
+
+                                        <option value="780">1:00 PM</option>
+                                        <option value="785">1:05 PM</option>
+                                        <option value="790">1:10 PM</option>
+                                        <option value="795">1:15 PM</option>
+                                        <option value="800">1:20 PM</option>
+                                        <option value="805">1:25 PM</option>
+                                        <option value="810">1:30 PM</option>
+                                        <option value="815">1:35 PM</option>
+                                        <option value="820">1:40 PM</option>
+                                        <option value="825">1:45 PM</option>
+                                        <option value="830">1:50 PM</option>
+                                        <option value="835">1:55 PM</option>
+
+                                        <option value="840">2:00 PM</option>
+                                        <option value="845">2:05 PM</option>
+                                        <option value="850">2:10 PM</option>
+                                        <option value="855">2:15 PM</option>
+                                        <option value="860">2:20 PM</option>
+                                        <option value="865">2:25 PM</option>
+                                        <option value="870">2:30 PM</option>
+                                        <option value="875">2:35 PM</option>
+                                        <option value="880">2:40 PM</option>
+                                        <option value="885">2:45 PM</option>
+                                        <option value="890">2:50 PM</option>
+                                        <option value="895">2:55 PM</option>
+
+                                        <option value="900">3:00 PM</option>
+                                        <option value="905">3:05 PM</option>
+                                        <option value="910">3:10 PM</option>
+                                        <option value="915">3:15 PM</option>
+                                        <option value="920">3:20 PM</option>
+                                        <option value="925">3:25 PM</option>
+                                        <option value="930">3:30 PM</option>
+                                        <option value="935">3:35 PM</option>
+                                        <option value="940">3:40 PM</option>
+                                        <option value="945">3:45 PM</option>
+                                        <option value="950">3:50 PM</option>
+                                        <option value="955">3:55 PM</option>
+
+                                        <option value="960">4:00 PM</option>
+                                        <option value="965">4:05 PM</option>
+                                        <option value="970">4:10 PM</option>
+                                        <option value="975">4:15 PM</option>
+                                        <option value="980">4:20 PM</option>
+                                        <option value="985">4:25 PM</option>
+                                        <option value="990">4:30 PM</option>
+                                        <option value="995">4:35 PM</option>
+                                        <option value="1000">4:40 PM</option>
+                                        <option value="1005">4:45 PM</option>
+                                        <option value="1010">4:50 PM</option>
+                                        <option value="1015">4:55 PM</option>
+
+                                        <option value="1020">5:00 PM</option>
+                                        <option value="1025">5:05 PM</option>
+                                        <option value="1030">5:10 PM</option>
+                                        <option value="1035">5:15 PM</option>
+                                        <option value="1040">5:20 PM</option>
+                                        <option value="1045">5:25 PM</option>
+                                        <option value="1050">5:30 PM</option>
+                                        <option value="1055">5:35 PM</option>
+                                        <option value="1060">5:40 PM</option>
+                                        <option value="1065">5:45 PM</option>
+                                        <option value="1070">5:50 PM</option>
+                                        <option value="1075">5:55 PM</option>
+
+                                        <option value="1080">6:00 PM</option>
+                                        <option value="1085">6:05 PM</option>
+                                        <option value="1090">6:10 PM</option>
+                                        <option value="1095">6:15 PM</option>
+                                        <option value="1100">6:20 PM</option>
+                                        <option value="1105">6:25 PM</option>
+                                        <option value="1110">6:30 PM</option>
+                                        <option value="1115">6:35 PM</option>
+                                        <option value="1120">6:40 PM</option>
+                                        <option value="1125">6:45 PM</option>
+                                        <option value="1130">6:50 PM</option>
+                                        <option value="1135">6:55 PM</option>
+
+                                        <option value="1140">7:00 PM</option>
+                                        <option value="1145">7:05 PM</option>
+                                        <option value="1150">7:10 PM</option>
+                                        <option value="1155">7:15 PM</option>
+                                        <option value="1160">7:20 PM</option>
+                                        <option value="1165">7:25 PM</option>
+                                        <option value="1170">7:30 PM</option>
+                                        <option value="1175">7:35 PM</option>
+                                        <option value="1180">7:40 PM</option>
+                                        <option value="1185">7:45 PM</option>
+                                        <option value="1190">7:50 PM</option>
+                                        <option value="1195">7:55 PM</option>
+
+                                        <option value="1200">8:00 PM</option>
+                                        <option value="1205">8:05 PM</option>
+                                        <option value="1210">8:10 PM</option>
+                                        <option value="1215">8:15 PM</option>
+                                        <option value="1220">8:20 PM</option>
+                                        <option value="1225">8:25 PM</option>
+                                        <option value="1230">8:30 PM</option>
+                                        <option value="1235">8:35 PM</option>
+                                        <option value="1240">8:40 PM</option>
+                                        <option value="1245">8:45 PM</option>
+                                        <option value="1250">8:50 PM</option>
+                                        <option value="1255">8:55 PM</option>
+
+                                        <option value="1260">9:00 PM</option>
+                                        <option value="1265">9:05 PM</option>
+                                        <option value="1270">9:10 PM</option>
+                                        <option value="1275">9:15 PM</option>
+                                        <option value="1280">9:20 PM</option>
+                                        <option value="1285">9:25 PM</option>
+                                        <option value="1290">9:30 PM</option>
+                                        <option value="1295">9:35 PM</option>
+                                        <option value="1300">9:40 PM</option>
+                                        <option value="1305">9:45 PM</option>
+                                        <option value="1310">9:50 PM</option>
+                                        <option value="1315">9:55 PM</option>
+
+                                        <option value="1320">10:00 PM</option>
+                                        <option value="1325">10:05 PM</option>
+                                        <option value="1330">10:10 PM</option>
+                                        <option value="1335">10:15 PM</option>
+                                        <option value="1340">10:20 PM</option>
+                                        <option value="1345">10:25 PM</option>
+                                        <option value="1350">10:30 PM</option>
+                                        <option value="1355">10:35 PM</option>
+                                        <option value="1360">10:40 PM</option>
+                                        <option value="1365">10:45 PM</option>
+                                        <option value="1370">10:50 PM</option>
+                                        <option value="1375">10:55 PM</option>
+
+                                        <option value="1380">11:00 PM</option>
+                                        <option value="1385">11:05 PM</option>
+                                        <option value="1390">11:10 PM</option>
+                                        <option value="1395">11:15 PM</option>
+                                        <option value="1400">11:20 PM</option>
+                                        <option value="1405">11:25 PM</option>
+                                        <option value="1410">11:30 PM</option>
+                                        <option value="1415">11:35 PM</option>
+                                        <option value="1420">11:40 PM</option>
+                                        <option value="1425">11:45 PM</option>
+                                        <option value="1430">11:50 PM</option>
+                                        <option value="1435">11:55 PM</option>
+                                        <option value="1440">12:00 AM</option>
+                                    </select>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="select__icon"><path d="m6 9 6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__field">
+                            <label class="form__label" for="description">
+                                Descrição
+                            </label>
+
+                            <textarea class="textarea" id="description" name="description" type="text" placeholder="Descrição"></textarea>
+                        </div>
+
+                        <div class="form__field">
+                            <label class="form__label" for="color">Cor</label>
+
+                            <div class="color-select">
+                                <label class="color-select__item" style="--color-select-item-color: #2563eb">
+                                    <input class="color-select__input" type="radio" name="color" value="#2563eb" checked />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #16a34a">
+                                    <input class="color-select__input" type="radio" name="color" value="#16a34a" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #e11d48">
+                                    <input class="color-select__input" type="radio" name="color" value="#e11d48" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #000">
+                                    <input class="color-select__input" type="radio" name="color" value="#000" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #aaa">
+                                    <input class="color-select__input" type="radio" name="color" value="#aaa" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #964B00">
+                                    <input class="color-select__input" type="radio" name="color" value="#964B00" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #ea580c">
+                                    <input class="color-select__input" type="radio" name="color" value="#ea580c" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #7c3aed">
+                                    <input class="color-select__input" type="radio" name="color" value="#7c3aed" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+
+                                <label class="color-select__item" style="--color-select-item-color: #ff369b">
+                                    <input class="color-select__input" type="radio" name="color" value="#ff369b" />
+
+                                    <div class="color-select__color">
+                                        <div class="color-select__color-inner"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dialog__footer">
+                    <div class="dialog__actions">
+                        <button class="button button--secondary" type="button" data-dialog-close-button>
+                            Cancelar
+                        </button>
+
+                        <button class="button button--primary">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="dialog" data-dialog="event-details">
+        <div class="dialog__wrapper">
+            <div class="dialog__header">
+                <h2 class="dialog__title">Detalhes do evento</h2>
+
+                <div class="dialog__header-actions">
+                    <button class="button button--icon button--secondary" data-event-details-edit-button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#096df1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                    </button>
+
+                    <button class="button button--icon button--secondary" data-event-details-delete-button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e21212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+
+                    <div class="dialog__header-actions-divider"></div>
+
+                    <button class="button button--icon button--secondary" data-dialog-close-button autofocus>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="dialog__content">
+                <div class="event-details" data-event-details>
+                    <div class="event-details__line"></div>
+
+                    <div class="event-details__content">
+                        <div class="event-details__title" data-event-details-title></div>
+
+                        <div class="event-details__time">
+                            <time data-event-details-date></time>
+                            <br/>
+                            <time data-event-details-start-time></time> -
+                            <time data-event-details-end-time></time>
+                        </div>
+
+                        <textarea class="textarea textarea--details event-details__description" disabled data-event-details-description></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog class="dialog" data-dialog="event-delete">
+        <div class="dialog__wrapper">
+            <div class="dialog__header">
+                <h2 class="dialog__title">Excluir Evento</h2>
+
+                <button class="button button--icon button--secondary" data-dialog-close-button autofocus>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="dialog__content">
+                <p>Você realmente deseja excluir <strong data-event-delete-title></strong>?</p>
+            </div>
+
+            <div class="dialog__footer">
+                <div class="dialog__actions">
+                    <button class="button button--secondary" data-dialog-close-button>
+                        Cancelar
+                    </button>
+
+                    <button class="button button--danger" data-event-delete-button>
+                        Excluir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog class="dialog dialog--sidebar" data-dialog="mobile-sidebar">
+        <div class="dialog__wrapper">
+            <div class="dialog__content">
+                <div class="mini-calendar" data-mini-calendar>
+                    <div class="mini-calendar__header">
+                        <time class="mini-calendar__date" data-mini-calendar-date></time>
+
+                        <div class="mini-calendar__controls">
+                            <button class="button button--icon button--secondary button--xs" data-mini-calendar-previous-button>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="m15 18-6-6 6-6"/></svg>
+                            </button>
+
+                            <button class="button button--icon button--secondary button--xs" data-mini-calendar-next-button>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button__icon"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mini-calendar__content">
+                        <ul class="mini-calendar__day-of-week-list">
+                            <li class="mini-calendar__day-of-week">D</li>
+                            <li class="mini-calendar__day-of-week">S</li>
+                            <li class="mini-calendar__day-of-week">T</li>
+                            <li class="mini-calendar__day-of-week">Q</li>
+                            <li class="mini-calendar__day-of-week">Q</li>
+                            <li class="mini-calendar__day-of-week">S</li>
+                            <li class="mini-calendar__day-of-week">S</li>
+                        </ul>
+
+                        <ul class="mini-calendar__day-list" data-mini-calendar-day-list></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <template data-template="month-calendar">
+        <div class="month-calendar" data-month-calendar>
+            <ul class="month-calendar__day-of-week-list">
+                <li class="month-calendar__day-of-week">Dom.</li>
+                <li class="month-calendar__day-of-week">Seg.</li>
+                <li class="month-calendar__day-of-week">Ter.</li>
+                <li class="month-calendar__day-of-week">Qua.</li>
+                <li class="month-calendar__day-of-week">Qui.</li>
+                <li class="month-calendar__day-of-week">Sex.</li>
+                <li class="month-calendar__day-of-week">Sáb.</li>
+            </ul>
+
+            <div class="month-calendar__day-list-wrapper">
+                <ul class="month-calendar__day-list" data-month-calendar-day-list data-calendar-scrollable></ul>
+            </div>
+        </div>
+    </template>
+
+    <template data-template="month-calendar-day">
+        <li class="month-calendar__day" data-month-calendar-day>
+            <button class="month-calendar__day-label" data-month-calendar-day-label></button>
+
+            <div class="month-calendar__event-list-wrapper" data-month-calendar-event-list-wrapper>
+                <ul class="event-list" data-event-list></ul>
+            </div>
+        </li>
+    </template>
+
+    <template data-template="week-calendar">
+        <div class="week-calendar" data-week-calendar>
+            <ul class="week-calendar__day-of-week-list" data-week-calendar-day-of-week-list></ul>
+
+            <ul class="week-calendar__all-day-list" data-week-calendar-all-day-list></ul>
+
+            <div class="week-calendar__content">
+                <div class="week-calendar__content-inner" data-calendar-scrollable>
+                    <ul class="week-calendar__time-list">
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">12:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">1:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">2:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">3:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">4:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">5:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">6:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">7:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">8:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">9:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">10:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">11:00 AM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">12:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">1:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">2:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">3:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">4:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">5:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">6:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">7:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">8:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">9:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">10:00 PM</time>
+                        </li>
+
+                        <li class="week-calendar__time-item">
+                            <time class="week-calendar__time">11:00 PM</time>
+                        </li>
+                    </ul>
+
+                    <div class="week-calendar__columns" data-week-calendar-columns></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template data-template="week-calendar-day-of-week">
+        <li class="week-calendar__day-of-week" data-week-calendar-day-of-week>
+            <button class="week-calendar__day-of-week-button" data-week-calendar-day-of-week-button>
+                <span class="week-calendar__day-of-week-day" data-week-calendar-day-of-week-day></span>
+
+                <span class="week-calendar__day-of-week-number" data-week-calendar-day-of-week-number></span>
+            </button>
+        </li>
+    </template>
+
+    <template data-template="week-calendar-all-day-list-item">
+        <li class="week-calendar__all-day-list-item" data-week-calendar-all-day-list-item>
+            <ul class="event-list" data-event-list></ul>
+        </li>
+    </template>
+
+    <template data-template="week-calendar-column">
+        <div class="week-calendar__column" data-week-calendar-column>
+            <div class="week-calendar__cell" data-week-calendar-cell="0"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="60"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="120"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="180"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="240"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="300"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="360"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="420"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="480"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="540"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="600"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="660"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="720"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="780"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="840"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="900"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="960"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1020"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1080"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1140"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1200"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1260"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1320"></div>
+            <div class="week-calendar__cell" data-week-calendar-cell="1380"></div>
+        </div>
+    </template>
+
+    <template data-template="event-list-item">
+        <li class="event-list__item" data-event-list-item></li>
+    </template>
+
+    <template data-template="event">
+        <button class="event" data-event>
+            <span class="event__color"></span>
+
+            <span class="event__title" data-event-title></span>
+
+            <span class="event__time">
+                <time data-event-start-time></time> - <time data-event-end-time></time>
+            </span>
+        </button>
+    </template>
+
+    <template data-template="mini-calendar-day-list-item">
+        <li class="mini-calendar__day-list-item" data-mini-calendar-day-list-item>
+            <button class="mini-calendar__day button button--xs" data-mini-calendar-day></button>
+        </li>
+    </template>
+</body>
+
+</html>
